@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #065A82;
+  --accent: #02C39A;
+  --danger: #F96167;
+  --warning: #F9C74F;
+  --bg: #F7F9FC;
+  --text: #1a1a2e;
+}
+
+.dark {
+  --bg: #0A0A1A;
+  --text: #e8e8e8;
+}
+
+html,
+body,
+#root {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Sans', Calibri, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+h1, h2, h3 {
+  font-family: Georgia, serif;
+}
+
+.font-heading {
+  font-family: Georgia, serif;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+@layer utilities {
+  .text-shadow-glow {
+    text-shadow: 0 0 10px rgba(6, 90, 130, 0.4);
+  }
+}
