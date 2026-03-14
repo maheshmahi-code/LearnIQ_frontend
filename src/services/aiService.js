@@ -2,13 +2,10 @@
  * AI Service - Doubt solver with SSE streaming
  */
 
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://learniq-backend-1.onrender.com/api';
 
 export const streamDoubtSolver = async (payload, onChunk) => {
-  const token = document.cookie
-    .split('; ')
-    .find((c) => c.startsWith('token='))
-    ?.split('=')[1];
+  const token = localStorage.getItem('token');
   const res = await fetch(`${API_BASE}/ai/doubt-solver`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
