@@ -17,21 +17,21 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const res = await authAPI.login({ email, password });
-    if (res.token) localStorage.setItem('token', res.token);
+    if (res.data.token) localStorage.setItem('token', res.data.token);
     setUser(res.data.user);
     return res.data;
   };
 
   const register = async (data) => {
     const res = await authAPI.register(data);
-    if (res.token) localStorage.setItem('token', res.token);
+    if (res.data.token) localStorage.setItem('token', res.data.token);
     setUser(res.data.user);
     return res.data;
   };
 
   const googleLogin = async (data) => {
     const res = await authAPI.google(data);
-    if (res.token) localStorage.setItem('token', res.token);
+    if (res.data.token) localStorage.setItem('token', res.data.token);
     setUser(res.data.user);
     return res.data;
   };
