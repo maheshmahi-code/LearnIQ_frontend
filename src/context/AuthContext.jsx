@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { authAPI } from '../services/apiService';
 
 const AuthContext = createContext(null);
@@ -15,42 +15,50 @@ export const AuthProvider = ({ children }) => {
       .finally(() => setLoading(false));
   }, []);
 
-  const login = async (email, password) => {
+  const login = useCallback(async (email, password) => {
     const res = await authAPI.login({ email, password });
     if (res.data.token) localStorage.setItem('token', res.data.token);
     setUser(res.data.user);
     return res.data;
-  };
+  }, []);
 
-  const register = async (data) => {
+  const register = useCallback(async (data) => {
     const res = await authAPI.register(data);
     if (res.data.token) localStorage.setItem('token', res.data.token);
     setUser(res.data.user);
     return res.data;
-  };
+  }, []);
 
-  const googleLogin = async (data) => {
+  const googleLogin = useCallback(async (data) => {
     const res = await authAPI.google(data);
     if (res.data.token) localStorage.setItem('token', res.data.token);
     setUser(res.data.user);
     return res.data;
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     await authAPI.logout();
     localStorage.removeItem('token');
     setUser(null);
-  };
+  }, []);
 
-  const refreshUser = async () => {
+  const refreshUser = useCallback(async () => {
     const res = await authAPI.me();
     setUser(res.data.user);
-  };
+  }, []);
+
+  const value = useMemo(() => ({
+    user,
+    loading,
+    login,
+    register,
+    googleLogin,
+    logout,
+    refreshUser
+  }), [user, loading, login, register, googleLogin, logout, refreshUser]);
 
   return (
-    <AuthContext.Provider
-      value={{ user, loading, login, register, googleLogin, logout, refreshUser }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { gamificationAPI } from '../services/apiService';
 import { useAuth } from './AuthContext';
 
@@ -16,12 +16,14 @@ export const GamificationProvider = ({ children }) => {
       .catch(() => setProfile(null));
   }, [user?.id]);
 
-  const refresh = () => {
+  const refresh = useCallback(() => {
     if (user) gamificationAPI.getProfile().then((res) => setProfile(res.data.profile));
-  };
+  }, [user]);
+
+  const value = useMemo(() => ({ profile, refresh }), [profile, refresh]);
 
   return (
-    <GamificationContext.Provider value={{ profile, refresh }}>
+    <GamificationContext.Provider value={value}>
       {children}
     </GamificationContext.Provider>
   );

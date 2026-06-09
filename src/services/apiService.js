@@ -86,6 +86,7 @@ export const weaknessAPI = {
 export const analyticsAPI = {
   getStudent: (id) => api.get(id ? `/analytics/student/${id}` : '/analytics/student'),
   getAdminOverview: () => api.get('/analytics/admin/overview'),
+  getPerformanceMetrics: () => api.get('/analytics/admin/performance'),
 };
 
 export const assignmentsAPI = {
