@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  generateFromFile, 
   generateFromCourse, 
   getDecks, 
   getDeck, 
@@ -57,21 +56,6 @@ export default function PDFFlashcards() {
     }
   };
 
-  const handleFileUpload = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setLoading(true);
-    try {
-      const { data } = await generateFromFile(file);
-      setDecks((prev) => [data.deck, ...prev]);
-      loadDeck(data.deck._id);
-    } catch (err) {
-      alert('Upload failed');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleRate = async (difficulty) => {
     const currentCard = cards[cardIdx];
     if (!currentCard) return;
@@ -110,10 +94,10 @@ export default function PDFFlashcards() {
           >
             <div className="mb-8 sm:mb-10 text-center">
               <h1 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white font-heading mb-3 sm:mb-4">AI Flashcards</h1>
-              <p className="text-sm sm:text-base text-gray-500 max-w-xl mx-auto px-4">Master any subject with AI-generated flashcards from your courses or uploaded documents.</p>
+              <p className="text-sm sm:text-base text-gray-500 max-w-xl mx-auto px-4">Master any subject with AI-generated flashcards from your enrolled courses.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 mb-10 sm:mb-12">
+            <div className="max-w-2xl mx-auto mb-10 sm:mb-12">
               <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
                 <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 font-heading text-gray-800 dark:text-white flex items-center gap-2">
                   <span className="text-xl sm:text-2xl">🎓</span> Generate from Course
@@ -121,7 +105,7 @@ export default function PDFFlashcards() {
                 <p className="text-xs sm:text-sm text-gray-400 mb-5 sm:mb-6 leading-relaxed">Select an enrolled course to generate cards from its curriculum content.</p>
                 <div className="flex flex-col gap-3 sm:gap-4">
                   <select 
-                    value={selectedCourseId}
+                     value={selectedCourseId}
                     onChange={(e) => setSelectedCourseId(e.target.value)}
                     className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm sm:text-base text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary appearance-none"
                   >
@@ -138,18 +122,6 @@ export default function PDFFlashcards() {
                     {loading ? 'Generating...' : 'Start Flashcards'}
                   </button>
                 </div>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 border-dashed">
-                <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 font-heading text-gray-800 dark:text-white flex items-center gap-2">
-                  <span className="text-xl sm:text-2xl">📄</span> Upload PDF/DOCX
-                </h3>
-                <p className="text-xs sm:text-sm text-gray-400 mb-5 sm:mb-6 leading-relaxed">Want to study something specific? Just upload the file and our AI will do the rest.</p>
-                <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl p-5 sm:p-6 cursor-pointer hover:border-primary transition-colors hover:bg-primary/5 group">
-                  <input type="file" accept=".pdf,.docx" onChange={handleFileUpload} className="hidden" />
-                  <span className="text-2xl sm:text-3xl mb-1.5 sm:mb-2 grayscale group-hover:grayscale-0 transition-all">📂</span>
-                  <span className="text-xs sm:text-sm font-bold text-gray-500">Pick a Study File</span>
-                </label>
               </div>
             </div>
 

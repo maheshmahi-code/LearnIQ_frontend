@@ -132,7 +132,7 @@ export default function Dashboard() {
               >
                 <div className="relative z-10 flex items-center justify-between">
                   <span>Generate AI Flashcards</span>
-                  <span className="text-2xl group-hover:scale-125 transition-transform">📄</span>
+                  <span className="text-2xl group-hover:scale-125 transition-transform">🃏</span>
                 </div>
               </Link>
             </div>

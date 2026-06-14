@@ -85,15 +85,15 @@ export default function Community() {
 
       {/* Chat Area */}
       <div className="flex-1 overflow-y-auto p-4 z-10 scrollbar-hide">
-        <div className="max-w-4xl mx-auto flex flex-col justify-end min-h-full">
+        <div className="w-full max-w-4xl mx-auto flex flex-col justify-end min-h-full">
           {messages.map((msg, index) => {
-            const senderId = String(msg.sender?._id || msg.sender?.id || msg.sender);
-            const myId = String(user?._id || user?.id);
-            const isMe = senderId === myId;
+            const senderId = msg.sender?._id || msg.sender?.id || (typeof msg.sender === 'string' ? msg.sender : '');
+            const myId = user?._id || user?.id || '';
+            const isMe = myId && senderId && String(senderId).toLowerCase() === String(myId).toLowerCase();
             
             // Checking if previous message is from same sender to chain bubbles
             const prevMsg = index > 0 ? messages[index - 1] : null;
-            const prevSenderId = prevMsg ? String(prevMsg.sender?._id || prevMsg.sender?.id || prevMsg.sender) : null;
+            const prevSenderId = prevMsg ? (prevMsg.sender?._id || prevMsg.sender?.id || (typeof prevMsg.sender === 'string' ? prevMsg.sender : '')) : null;
             const isFirstInChain = prevSenderId !== senderId;
 
             return (
@@ -102,35 +102,35 @@ export default function Community() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
-                className={`flex ${isMe ? "justify-end" : "justify-start"} ${isFirstInChain ? "mt-3" : "mt-1"}`}
+                className={`flex w-full ${isMe ? "justify-end" : "justify-start"} ${isFirstInChain ? "mt-4" : "mt-1"}`}
               >
                 {/* Message Bubble */}
                 <div
-                  className={`max-w-[85%] md:max-w-[70%] px-3 pt-2 pb-1 text-[15px] shadow-sm relative flex flex-col
+                  className={`max-w-[85%] md:max-w-[70%] px-4 pt-2.5 pb-1 text-[15px] shadow-md relative flex flex-col transition-all
                   ${isMe
-                      ? "bg-[#005c4b] text-white rounded-lg rounded-tr-none" 
-                      : "bg-white text-gray-800 rounded-lg rounded-tl-none"
+                      ? "bg-gradient-to-br from-primary to-blue-600 text-white rounded-2xl rounded-tr-none" 
+                      : "bg-white dark:bg-gray-800 text-gray-850 dark:text-gray-150 rounded-2xl rounded-tl-none border border-gray-100 dark:border-gray-700"
                     }`}
                 >
                   {/* Sender Name if not me and first in chain */}
                   {!isMe && isFirstInChain && (
-                    <span className="text-xs font-bold text-blue-500 mb-1">
+                    <span className="text-xs font-black text-primary dark:text-blue-400 mb-1 tracking-wide">
                       {msg.sender?.name || "Unknown User"}
                     </span>
                   )}
 
                   {/* Message Content */}
                   <div className="flex flex-wrap items-end gap-2">
-                    <p className="whitespace-pre-wrap leading-relaxed break-words pr-2">
+                    <p className="whitespace-pre-wrap leading-relaxed break-words pr-2 font-medium">
                       {msg.content}
                     </p>
 
                     {/* Time + Ticks */}
-                    <div className="flex items-center gap-1 text-[10px] ml-auto shrink-0 opacity-80 mt-1 pb-[2px]">
-                      <span className={`${isMe ? "text-gray-300" : "text-gray-500"}`}>{formatTime(msg.createdAt)}</span>
+                    <div className="flex items-center gap-1 text-[10px] ml-auto shrink-0 opacity-75 mt-1 pb-[2px] font-bold">
+                      <span className={`${isMe ? "text-blue-100" : "text-gray-400 dark:text-gray-500"}`}>{formatTime(msg.createdAt)}</span>
 
                       {isMe && (
-                        <svg viewBox="0 0 16 15" width="16" height="15" className="text-[#53bdeb] fill-current">
+                        <svg viewBox="0 0 16 15" width="14" height="13" className="text-blue-200 fill-current">
                           <path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.879a.32.32 0 0 1-.484.033l-.358-.325a.32.32 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l1.32 1.266c.143.14.361.125.484-.033l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.879a.32.32 0 0 1-.484.033L1.891 7.769a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l3.258 3.185c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z" />
                         </svg>
                       )}

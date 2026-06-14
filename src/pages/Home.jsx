@@ -22,7 +22,7 @@ export default function Home() {
           transition={{ delay: 0.1 }}
           className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8"
         >
-          AI tutoring, adaptive quizzes, leaderboard, weakness detection, and PDF flashcards.
+          AI tutoring, adaptive quizzes, leaderboard, weakness detection, and AI flashcards.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -44,7 +44,7 @@ export default function Home() {
           { title: 'Adaptive Quizzes', desc: 'AI-generated MCQs', icon: '❓', to: '/quiz-generator' },
           { title: 'Leaderboard', desc: 'See how you rank', icon: '🏅', to: '/leaderboard' },
           { title: 'Weakness Detector', desc: 'Find & fix weak areas', icon: '🎯', to: '/weakness-detector' },
-          { title: 'PDF Flashcards', desc: 'AI-generated from PDFs', icon: '🃏', to: '/pdf-flashcards' },
+          { title: 'AI Flashcards', desc: 'AI-generated from courses', icon: '🃏', to: '/pdf-flashcards' },
           { title: 'PDF Notes', desc: 'Share & Access Study Material', icon: '🗒️', to: '/notes' },
           { title: 'Analytics', desc: 'Track your progress', icon: '📈', to: '/analytics' },
         ].map((item, i) => (
